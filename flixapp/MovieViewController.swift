@@ -18,6 +18,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Flix"
+        navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(getMovies(_:firstLoad:)), forControlEvents: UIControlEvents.ValueChanged)
