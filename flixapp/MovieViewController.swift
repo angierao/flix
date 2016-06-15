@@ -10,14 +10,23 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
 
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
     
+    var filteredData: [NSDictionary]?
+    
+    var searchController: UISearchController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
+        filteredData = movies
+        
+        
         self.title = "Flix"
         navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
@@ -26,14 +35,31 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.insertSubview(refreshControl, atIndex: 0)
         
         self.getMovies(refreshControl, firstLoad: true)
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController.searchBar
+        definesPresentationContext = true
 
         // Do any additional setup after loading the view.
     }
     
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
+                return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            })
+            
+            tableView.reloadData()
+        }
+
+    }
+
+    
     func getMovies(refreshControl: UIRefreshControl, firstLoad: Bool) {
-        
-        tableView.dataSource = self
-        tableView.delegate = self
         
         let apiKey = "d1c647e254e62ab5d6f57a3a3a112777"
         let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
@@ -80,7 +106,10 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let movies = movies {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredData!.count
+        }
+        else if let movies = movies {
             return movies.count
         }
         else {
@@ -91,7 +120,15 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         
-        let movie = movies![indexPath.row]
+        let movie: NSDictionary
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            movie = filteredData![indexPath.row]
+        }
+        else {
+            movie = movies![indexPath.row]
+        }
+        
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
         let posterPath = movie["poster_path"] as! String
@@ -99,6 +136,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         
         let imageUrl = NSURL(string: baseUrl + posterPath )
+
+
         
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
@@ -119,3 +158,4 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     */
 
 }
+
