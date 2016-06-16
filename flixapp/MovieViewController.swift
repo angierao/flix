@@ -52,10 +52,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
                 return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
-            
-            tableView.reloadData()
         }
-
     }
 
     
@@ -84,20 +81,14 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                     data, options:[]) as? NSDictionary {
-                        print("response: \(responseDictionary)")
-                                                                                
                         self.movies = responseDictionary["results"] as? [NSDictionary]
                         self.tableView.reloadData()
-                                                                                
-                                                                                
                 }
             }
             MBProgressHUD.hideHUDForView(self.view, animated: true)
          refreshControl.endRefreshing()
         })
         task.resume()
-
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -135,27 +126,45 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         
-        let imageUrl = NSURL(string: baseUrl + posterPath )
+        let imageUrl = NSURL(string: baseUrl + posterPath)
+        let imageRequest = NSURLRequest(URL: imageUrl!)
 
-
-        
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
-        cell.posterView.setImageWithURL(imageUrl!)
+        cell.posterView.setImageWithURLRequest(imageRequest, placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) -> Void in
+                if imageResponse != nil {
+                    cell.posterView.alpha = 0.0
+                    cell.posterView.image = image
+                    UIView.animateWithDuration(0.3, animations: {() -> Void in cell.posterView.alpha = 1.0})
+                }
+                else {
+                    cell.posterView.image = image
+                }
+        },
+            failure: { (imageRequest, imageResponse, error) -> Void in
+                print("failure")
+        })
         
-        
-        print("row \(indexPath.row)")
         return cell
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let cell = sender as! UITableViewCell!
+        let indexPath = tableView.indexPathForCell(cell)
+        let movie = movies![indexPath!.row]
+        
+        let detailViewController = segue.destinationViewController as! DetailViewController
+        
+        detailViewController.movie = movie
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }
 
