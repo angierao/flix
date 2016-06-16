@@ -26,9 +26,10 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(movie)
+        
         let title = movie["title"] as? String
         titleLabel.text = title
+        self.title = title
         
         let date = movie["release_date"] as? String
         dateLabel.text = date

@@ -27,7 +27,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         filteredData = movies
         
         
-        self.title = "Flix"
+        self.title = "Movies"
         navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         let refreshControl = UIRefreshControl()
@@ -52,6 +52,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
                 return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
+            self.tableView.reloadData()
         }
     }
 
@@ -109,7 +110,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         
         let movie: NSDictionary
         
@@ -156,7 +157,14 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let cell = sender as! UITableViewCell!
         let indexPath = tableView.indexPathForCell(cell)
-        let movie = movies![indexPath!.row]
+        //let movie = movies![indexPath!.row]
+        
+        let movie: NSDictionary
+        if searchController.active && searchController.searchBar.text != "" {
+            movie = filteredData![indexPath!.row]
+        } else {
+            movie = movies![indexPath!.row]
+        }
         
         let detailViewController = segue.destinationViewController as! DetailViewController
         
