@@ -132,7 +132,7 @@
             </objects>
             <point key="canvasLocation" x="1077" y="289"/>
         </scene>
-        <!--Item 1-->
+        <!--Rentals-->
         <scene sceneID="DhD-IU-lmb">
             <objects>
                 <viewController id="Yo2-1A-uBU" customClass="RentalViewController" customModule="flixapp" customModuleProvider="target" sceneMemberID="viewController">
@@ -140,38 +140,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="28" sectionFooterHeight="28" id="RpE-i1-vRn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="109" sectionHeaderHeight="28" sectionFooterHeight="28" id="RpE-i1-vRn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RentalCell" rowHeight="121" id="CI2-pE-GAv" customClass="RentalCell" customModule="flixapp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="121"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RentalCell" rowHeight="109" id="CI2-pE-GAv" customClass="RentalCell" customModule="flixapp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="320" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CI2-pE-GAv" id="kx1-uE-4st">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="108.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="aha-ZK-0hj">
-                                                    <rect key="frame" x="0.0" y="8" width="69" height="112.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="69" height="107.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v05-vT-5Mq">
-                                                    <rect key="frame" x="77" y="8" width="34" height="21"/>
+                                                    <rect key="frame" x="77" y="0.0" width="230" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gfN-9u-1XE">
-                                                    <rect key="frame" x="77" y="37" width="72" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gfN-9u-1XE">
+                                                    <rect key="frame" x="77" y="21" width="235" height="79.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="coverView" destination="aha-ZK-0hj" id="o2W-g9-qBk"/>
                                             <outlet property="overviewLabel" destination="gfN-9u-1XE" id="gx7-j2-xJP"/>
@@ -183,14 +184,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="e7d-bq-tpC"/>
+                    <navigationItem key="navigationItem" title="Rentals" id="8EV-IV-9Fx"/>
                     <connections>
                         <outlet property="tableView" destination="RpE-i1-vRn" id="3FI-eT-seO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2n7-h0-i5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="1194"/>
+            <point key="canvasLocation" x="1275" y="1194"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="nWv-nR-hwV">
@@ -203,7 +204,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Dl7-E2-SIA" kind="relationship" relationship="viewControllers" id="VrJ-3r-nGE"/>
-                        <segue destination="Yo2-1A-uBU" kind="relationship" relationship="viewControllers" id="I9z-18-BTq"/>
+                        <segue destination="njZ-V3-8NX" kind="relationship" relationship="viewControllers" id="I9z-18-BTq"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYD-gi-l4a" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -228,6 +229,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LDf-kn-egf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="130" y="294"/>
+        </scene>
+        <!--Item 1-->
+        <scene sceneID="46I-pc-vig">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="njZ-V3-8NX" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item 1" id="e7d-bq-tpC"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uTW-mf-lTc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Yo2-1A-uBU" kind="relationship" relationship="rootViewController" id="91I-cr-XEw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVP-Ku-Iy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="743" y="1194"/>
         </scene>
     </scenes>
 </document>

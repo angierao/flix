@@ -78,6 +78,30 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
         
         let rental = rentals![indexPath.row]
         
+        let title = rental["title"] as! String
+        let synopsis = rental["synopsis"] as! String
+        let posterPaths = rental["posters"] as! NSDictionary
+        let posterPath = posterPaths["detailed"] as! String
+        
+        let imageUrl = NSURL(string: posterPath)
+        let imageRequest = NSURLRequest(URL: imageUrl!)
+        
+        cell.titleLabel.text = title
+        cell.overviewLabel.text = synopsis
+        cell.coverView.setImageWithURLRequest(imageRequest, placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) -> Void in
+                if imageResponse != nil {
+                    cell.coverView.alpha = 0.0
+                    cell.coverView.image = image
+                    UIView.animateWithDuration(0.3, animations: {() -> Void in cell.coverView.alpha = 1.0})
+                }
+                else {
+                    cell.coverView.image = image
+                }
+            },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                    print("failure")
+        })
         return cell
     }
     override func didReceiveMemoryWarning() {
