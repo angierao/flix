@@ -28,7 +28,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         
         self.title = "Movies"
-        //navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(getMovies(_:firstLoad:)), forControlEvents: UIControlEvents.ValueChanged)
@@ -45,19 +44,11 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         definesPresentationContext = true
     
         //searchController.searchBar.showsScopeBar = true
-        searchController.searchBar.scopeButtonTitles = ["All", "Last Week", "Last Month"]
+        searchController.searchBar.scopeButtonTitles = ["All", "This Week", "This Month"]
         searchController.searchBar.delegate = self
         // Do any additional setup after loading the view.
     }
     
-//    func updateSearchResultsForSearchController(searchController: UISearchController) {
-//        if let searchText = searchController.searchBar.text {
-//            filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
-//                return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
-//            })
-//            self.tableView.reloadData()
-//        }
-//    }
     
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
@@ -70,29 +61,27 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let year =  components.year
         let month = components.month
         let day = components.day
-        print(year)
-        print(month)
-        print(day)
         return [day, month, year]
     }
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         if let searchText = searchController.searchBar.text {
             filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
                 var dateMatch = false
-//                if scope == "This Month" {
-//                    let month: Int? = Int((movie["release_date"] as? String)!.startIndex.advancedBy(5))
-//                    if month == getDate()[1] {
-//                        dateMatch = true
-//                    }
-//                }
-//                else if scope == "This Week" {
-//                    if Int((movie["release_date"] as? String)!.substringFromIndex(8)) == getDate()[0] {
-//                        dateMatch = true
-//                    }
-//                    
-//                }
-                let categoryMatch = (scope == "All")
-                return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+                
+                if scope == "This Month" {
+                    let yearmonth: String = String((movie["release_date"] as? String)!.characters.dropLast(3))
+                    let month = String(yearmonth.characters.suffix(2))
+                    if Int(month) == getDate()[1] {
+                        dateMatch = true
+                    }
+                }
+                else if scope == "This Week" {
+                        let dayString = String((movie["release_date"] as! String).characters.suffix(2))
+                    if (Int(dayString)! - getDate()[0]) < 8 {
+                        dateMatch = true
+                    }
+                }
+                return (dateMatch || scope == "All") && (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
             self.tableView.reloadData()
         }
