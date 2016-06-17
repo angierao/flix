@@ -62,7 +62,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
-    func getDate() {
+    func getDate() -> [Int]{
         let date = NSDate()
         let calendar = NSCalendar.currentCalendar()
         let components = calendar.components([.Day , .Month , .Year], fromDate: date)
@@ -70,21 +70,25 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let year =  components.year
         let month = components.month
         let day = components.day
-        print(year)
-        print(month)
-        print(day)
+        return [day, month, year]
     }
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         if let searchText = searchController.searchBar.text {
             filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
-                var dateMatch = Bool()
-//                if scope == "Last Month" {
+                var dateMatch = false
+//                if scope == "This Month" {
+//                    let month: Int? = Int((movie["release_date"] as? String)!.startIndex.advancedBy(5))
+//                    if month == getDate()[1] {
+//                        dateMatch = true
+//                    }
+//                }
+//                else if scope == "This Week" {
+//                    if Int((movie["release_date"] as? String)!.substringFromIndex(8)) == getDate()[0] {
+//                        dateMatch = true
+//                    }
 //                    
 //                }
-//                else if scope == "Last Week" {
-//                    
-//                }
-//                let categoryMatch = (scope == "All")
+                let categoryMatch = (scope == "All")
                 return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
             self.tableView.reloadData()

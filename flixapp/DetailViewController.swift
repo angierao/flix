@@ -23,6 +23,7 @@ class DetailViewController: UIViewController {
     
     var movie: NSDictionary!
     var photoUrl: NSURL!
+    var genres: [NSDictionary]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +47,47 @@ class DetailViewController: UIViewController {
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
         
+        let apiKey = "d1c647e254e62ab5d6f57a3a3a112777"
+        let url = NSURL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=\(apiKey)")
+        let request = NSURLRequest(
+            URL: url!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
         
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue()
+        )
+
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,completionHandler: { (dataOrNil, response, error) in
+            if let data = dataOrNil {
+                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                    self.genres = responseDictionary["genres"] as? [NSDictionary]
+                    }
+                }
+        //refreshControl.endRefreshing()
+        })
+        task.resume()
+        print(self.genres.count)
+        var genreString: String = ""
+        let movieGenres = movie["genre_ids"] as? [Int]
+        for movieGenre in movieGenres! {
+            for genre in self.genres {
+                if (genre["id"] as! Int) == movieGenre {
+                    genreString = genreString + (genre["name"] as! String) + ", "
+                }
+            }
+        }
+        genreString = String(genreString.characters.dropLast(2))
+        genreLabel.text = genreString
 
         // Do any additional setup after loading the view.
     }
-
+    
+    func getGenreJSON() {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
