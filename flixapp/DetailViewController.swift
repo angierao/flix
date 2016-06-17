@@ -23,7 +23,8 @@ class DetailViewController: UIViewController {
     
     var movie: NSDictionary!
     var photoUrl: NSURL!
-    var genres: [NSDictionary]!
+    var genres: [NSDictionary]?
+    var moviesG: [NSDictionary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,7 @@ class DetailViewController: UIViewController {
         
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
-        
+        /*
         let apiKey = "d1c647e254e62ab5d6f57a3a3a112777"
         let url = NSURL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=\(apiKey)")
         let request = NSURLRequest(
@@ -81,6 +82,47 @@ class DetailViewController: UIViewController {
         }
         genreString = String(genreString.characters.dropLast(2))
         genreLabel.text = genreString
+        
+        */
+        
+        let apiKeyG = "d1c647e254e62ab5d6f57a3a3a112777"
+        let urlG = NSURL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=\(apiKeyG)")
+        let request = NSURLRequest(
+            URL: urlG!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue()
+        )
+        
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,completionHandler: { (dataOrNil, response, error) in
+            if let data = dataOrNil {
+                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                    self.moviesG = responseDictionary["genres"] as? [NSDictionary]
+                    
+                    var genreString: String = ""
+                    let movieGenres = self.movie["genre_ids"] as? [Int]
+                    for movieGenre in movieGenres! {
+                        for genre in self.moviesG! {
+                            if (genre["id"] as! Int) == movieGenre {
+                                genreString = genreString + (genre["name"] as! String) + ", "
+                            }
+                        }
+                    }
+                    genreString = String(genreString.characters.dropLast(2))
+                    self.genreLabel.text = genreString
+                }
+                print(self.moviesG!.count)
+            }
+            //refreshControl.endRefreshing()
+        })
+        task.resume()
+        /*
+       
+ */
 
         // Do any additional setup after loading the view.
     }

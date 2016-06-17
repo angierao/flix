@@ -28,7 +28,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         
         self.title = "Movies"
-        navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
+        //navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(getMovies(_:firstLoad:)), forControlEvents: UIControlEvents.ValueChanged)
@@ -70,6 +70,9 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let year =  components.year
         let month = components.month
         let day = components.day
+        print(year)
+        print(month)
+        print(day)
         return [day, month, year]
     }
     func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -201,7 +204,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let cell = sender as! UITableViewCell!
         let indexPath = tableView.indexPathForCell(cell)
-        //let movie = movies![indexPath!.row]
         
         let movie: NSDictionary
         if searchController.active && searchController.searchBar.text != "" {
