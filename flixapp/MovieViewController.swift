@@ -26,7 +26,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.delegate = self
         filteredData = movies
         
-        
         self.title = "Movies"
         
         let refreshControl = UIRefreshControl()

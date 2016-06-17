@@ -18,6 +18,7 @@
 		AFA466891D128F8100F50E7A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA466881D128F8100F50E7A /* DetailViewController.swift */; };
 		AFA466CB1D14988700F50E7A /* RentalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA466CA1D14988700F50E7A /* RentalViewController.swift */; };
 		AFA466CD1D14A30000F50E7A /* RentalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA466CC1D14A30000F50E7A /* RentalCell.swift */; };
+		AFA466CF1D14BFB200F50E7A /* RentalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA466CE1D14BFB200F50E7A /* RentalDetailViewController.swift */; };
 		B1BBBC756BF9B847081C91A9 /* Pods_flixappUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6874094225D95CA04A34BB0C /* Pods_flixappUITests.framework */; };
 		CC15B6543F189C49388C534A /* Pods_flixapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D981E39E3CB2139A9752873A /* Pods_flixapp.framework */; };
 		D4BCB96E4495C173FC478DBA /* Pods_flixappTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2255638DBC3CB127910AD06 /* Pods_flixappTests.framework */; };
@@ -65,6 +66,7 @@
 		AFA466881D128F8100F50E7A /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AFA466CA1D14988700F50E7A /* RentalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RentalViewController.swift; sourceTree = "<group>"; };
 		AFA466CC1D14A30000F50E7A /* RentalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RentalCell.swift; sourceTree = "<group>"; };
+		AFA466CE1D14BFB200F50E7A /* RentalDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RentalDetailViewController.swift; sourceTree = "<group>"; };
 		D981E39E3CB2139A9752873A /* Pods_flixapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flixapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2255638DBC3CB127910AD06 /* Pods_flixappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flixappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -176,6 +178,7 @@
 				AF3155CE1D11F265009025DE /* MovieViewController.swift */,
 				AFA466881D128F8100F50E7A /* DetailViewController.swift */,
 				AFA466CA1D14988700F50E7A /* RentalViewController.swift */,
+				AFA466CE1D14BFB200F50E7A /* RentalDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 			files = (
 				AF3155A11D11F209009025DE /* AppDelegate.swift in Sources */,
 				AF3155CF1D11F265009025DE /* MovieViewController.swift in Sources */,
+				AFA466CF1D14BFB200F50E7A /* RentalDetailViewController.swift in Sources */,
 				AFA466CB1D14988700F50E7A /* RentalViewController.swift in Sources */,
 				AF3155D21D11FAA8009025DE /* MovieCell.swift in Sources */,
 				AFA466891D128F8100F50E7A /* DetailViewController.swift in Sources */,
