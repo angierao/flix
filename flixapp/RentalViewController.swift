@@ -10,14 +10,18 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class RentalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class RentalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     var rentals: [NSDictionary]?
+    var filteredData: [NSDictionary]?
+    var searchController: UISearchController!
     @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        filteredData = rentals
         
         self.title = "Top Rentals"
         
@@ -26,9 +30,48 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.insertSubview(refreshControl, atIndex: 0)
         
         self.getRentals(refreshControl, firstLoad: true)
-
-
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController.searchBar
+        definesPresentationContext = true
+        searchController.searchBar.delegate = self
         // Do any additional setup after loading the view.
+    }
+    func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+    }
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        if let searchText = searchController.searchBar.text {
+            filteredData = searchText.isEmpty ? rentals : rentals!.filter({(rental: NSDictionary) -> Bool in
+                //var dateMatch = false
+                //                if scope == "This Month" {
+                //                    let month: Int? = Int((movie["release_date"] as? String)!.startIndex.advancedBy(5))
+                //                    if month == getDate()[1] {
+                //                        dateMatch = true
+                //                    }
+                //                }
+                //                else if scope == "This Week" {
+                //                    if Int((movie["release_date"] as? String)!.substringFromIndex(8)) == getDate()[0] {
+                //                        dateMatch = true
+                //                    }
+                //
+                //                }
+                //let categoryMatch = (scope == "All")
+                return (rental["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            })
+            self.tableView.reloadData()
+        }
+        
+    }
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        /*
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex] */
+        filterContentForSearchText(searchController.searchBar.text!, scope: "All")
     }
     
     func getRentals(refreshControl: UIRefreshControl, firstLoad: Bool) {
@@ -65,7 +108,10 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
 
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let rentals = rentals {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredData!.count
+        }
+        else if let rentals = rentals {
             return rentals.count
         }
         else {
@@ -76,7 +122,14 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("RentalCell", forIndexPath: indexPath) as! RentalCell
         
-        let rental = rentals![indexPath.row]
+        let rental: NSDictionary
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            rental = filteredData![indexPath.row]
+        }
+        else {
+            rental = rentals![indexPath.row]
+        }
         
         let title = rental["title"] as! String
         let synopsis = rental["synopsis"] as! String
