@@ -10,7 +10,7 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
+class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -43,19 +43,59 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         searchController.searchBar.sizeToFit()
         tableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
-
+    
+        //searchController.searchBar.showsScopeBar = true
+        searchController.searchBar.scopeButtonTitles = ["All", "Last Week", "Last Month"]
+        searchController.searchBar.delegate = self
         // Do any additional setup after loading the view.
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+//    func updateSearchResultsForSearchController(searchController: UISearchController) {
+//        if let searchText = searchController.searchBar.text {
+//            filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
+//                return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+//            })
+//            self.tableView.reloadData()
+//        }
+//    }
+    
+    func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+    }
+    func getDate() {
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        
+        let year =  components.year
+        let month = components.month
+        let day = components.day
+        print(year)
+        print(month)
+        print(day)
+    }
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
         if let searchText = searchController.searchBar.text {
             filteredData = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
+                var dateMatch = Bool()
+//                if scope == "Last Month" {
+//                    
+//                }
+//                else if scope == "Last Week" {
+//                    
+//                }
+//                let categoryMatch = (scope == "All")
                 return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
             self.tableView.reloadData()
         }
-    }
 
+    }
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
+    }
     
     func getMovies(refreshControl: UIRefreshControl, firstLoad: Bool) {
         
