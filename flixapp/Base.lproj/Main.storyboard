@@ -83,10 +83,6 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="168"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="yVV-yQ-dcu">
-                                <rect key="frame" x="46" y="454" width="52" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FQw-SR-AYZ">
                                 <rect key="frame" x="20" y="77" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -121,7 +117,6 @@
                     <navigationItem key="navigationItem" id="gna-kR-1bu"/>
                     <connections>
                         <outlet property="backdropView" destination="XKh-Ps-FTY" id="hdW-F3-7CC"/>
-                        <outlet property="coverView" destination="yVV-yQ-dcu" id="PDs-kA-eW2"/>
                         <outlet property="dateLabel" destination="gcY-Lm-oNQ" id="EId-TH-1pC"/>
                         <outlet property="genreLabel" destination="YwO-5g-peG" id="XTH-T9-U9a"/>
                         <outlet property="overviewLabel" destination="r0R-ld-4gO" id="L9G-tc-qYt"/>
