@@ -18,23 +18,31 @@ The following **optional** features are implemented:
 - [ ] User sees an error message when there's a networking error.
 - [ ] Movies are displayed using a CollectionView instead of a TableView.
 - [X] User can search for a movie.
-- [ ] All images fade in as they are loading.
-- [ ] Customize the UI.
+- [X] All images fade in as they are loading.
+- [X] Customize the UI.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] List anything else that you can get done to improve the app functionality!
+- [X] Added filtered search with All, This Week, and This Month
+- [X] Integrated the Rotten Tomatoes API to include Top Rentals
+- [X] Added a tab bar with customized titles and icons
+- [X] Customized the Details screen for both Rentals and Movies
+- [X] Added an extra HTTP request to decode the genre IDs
+- [X] Added cast to Rental details
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Collection Views
+2. Network Error feature
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/8uhmydf.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+If it doesn't work, here's the link: http://i.imgur.com/8uhmydf.gif
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
