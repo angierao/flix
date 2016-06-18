@@ -11,7 +11,7 @@ import AFNetworking
 import MBProgressHUD
 
 class RentalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate {
-
+    
     var rentals: [NSDictionary]?
     var filteredData: [NSDictionary]?
     var searchController: UISearchController!
@@ -38,30 +38,46 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
         searchController.searchBar.sizeToFit()
         tableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = ["All", "This Week", "This Month"]
         searchController.searchBar.delegate = self
         // Do any additional setup after loading the view.
     }
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
+    func getDate() -> [Int]{
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        
+        let year =  components.year
+        let month = components.month
+        let day = components.day
+        return [day, month, year]
+    }
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         if let searchText = searchController.searchBar.text {
             filteredData = searchText.isEmpty ? rentals : rentals!.filter({(rental: NSDictionary) -> Bool in
-                //var dateMatch = false
-                //                if scope == "This Month" {
-                //                    let month: Int? = Int((movie["release_date"] as? String)!.startIndex.advancedBy(5))
-                //                    if month == getDate()[1] {
-                //                        dateMatch = true
-                //                    }
-                //                }
-                //                else if scope == "This Week" {
-                //                    if Int((movie["release_date"] as? String)!.substringFromIndex(8)) == getDate()[0] {
-                //                        dateMatch = true
-                //                    }
-                //
-                //                }
-                //let categoryMatch = (scope == "All")
-                return (rental["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+                var dateMatch = false
+                let date = rental["release_dates"] as? NSDictionary
+                let dvdDate = date!["dvd"] as? String
+                if scope == "This Month" {
+                    let yearmonth: String = String(dvdDate!.characters.dropLast(3))
+                    let month = String(yearmonth.characters.suffix(2))
+                    if Int(month) == getDate()[1] {
+                        dateMatch = true
+                    }
+                }
+                else if scope == "This Week" {
+                    let yearmonth: String = String(dvdDate!.characters.dropLast(3))
+                    let month = String(yearmonth.characters.suffix(2))
+
+                    let dayString = String(dvdDate!.characters.suffix(2))
+                    if (Int(dayString)! - getDate()[0]) < 8 && Int(month) == getDate()[1] {
+                        dateMatch = true
+                    }
+                }
+                return (dateMatch || scope == "All") && (rental["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             })
             self.tableView.reloadData()
         }
@@ -69,9 +85,8 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
     }
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchBar = searchController.searchBar
-        /*
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex] */
-        filterContentForSearchText(searchController.searchBar.text!, scope: "All")
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
     }
     
     func getRentals(refreshControl: UIRefreshControl, firstLoad: Bool) {
@@ -163,14 +178,28 @@ class RentalViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let cell = sender as! UITableViewCell!
+        let indexPath = tableView.indexPathForCell(cell)
+        
+        let rental: NSDictionary
+        if searchController.active && searchController.searchBar.text != "" {
+            rental = filteredData![indexPath!.row]
+        } else {
+            rental = rentals![indexPath!.row]
+        }
+        
+        let rentalDetailViewController = segue.destinationViewController as! RentalDetailViewController
+        
+        rentalDetailViewController.rental = rental
     }
-    */
+    
 
 }
