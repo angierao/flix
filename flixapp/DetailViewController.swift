@@ -14,7 +14,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
-    @IBOutlet weak var coverView: UIImageView!
     @IBOutlet weak var overviewLabel: UILabel!
     
     var movie: NSDictionary!
@@ -36,9 +35,9 @@ class DetailViewController: UIViewController {
         let backdropUrl = NSURL(string: baseUrl + backdropPath!)
         backdropView.setImageWithURL(backdropUrl!)
         
-        let posterPath = movie["poster_path"] as! String
-        let posterUrl = NSURL(string: baseUrl + posterPath)
-        coverView.setImageWithURL(posterUrl!)
+//        let posterPath = movie["poster_path"] as! String
+//        let posterUrl = NSURL(string: baseUrl + posterPath)
+//        coverView.setImageWithURL(posterUrl!)
         
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
